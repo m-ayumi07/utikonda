@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#ffe589"><meta name="description" content="打ち込ん打。君たちはどう打ち込むか。10問勝負のゆるくて熱いタイピング対決。">
+  <title>打ち込ん打｜君たちはどう打ち込むか。</title>
+  <link rel="stylesheet" href="style.css"><script defer src="script.js?v=20261120-ancestor-confirm-v3"></script>
+</head>
+<body>
+<div class="page"><header class="topbar"><a href="./" class="logo"><span class="logo-mark">打</span><span>打ち込ん打<small>うちこんだ</small></span></a><span class="top-stamp">全10問 <b>一打入魂！</b></span></header>
+<main>
+<section class="screen" id="startScreen" aria-labelledby="startHeading">
+  <div class="hero"><span class="burst burst-left" aria-hidden="true">打！</span><span class="burst burst-right" aria-hidden="true">押忍！</span><p class="hero-eyebrow">ふざけているけど、勝負は本気。</p><h1 id="startHeading">打ち込ん<span>打</span><small>うちこんだ！</small></h1><p class="hero-copy">君たちはどう打ち込むか。</p><p class="hero-detail">10問連続、打って打って打ちまくれ。<br>ミスったら？ そりゃもう<strong>「喝！」</strong>です。</p></div>
+  <div class="start-grid"><div class="sheet"><h2><span class="seal">壱</span> 挑戦状を記入せよ</h2><label class="field-label" for="playerName">挑戦者の名前 <small>（12文字まで）</small></label><input id="playerName" type="text" maxlength="12" placeholder="例：打鍵の申し子" autocomplete="nickname"><p class="hint" id="nameRule">初めての名はそのまま授かる！ 番付にある名なら「先代さまですか？」と本人確認！</p>
+  <fieldset><legend class="field-label">難易度（ローマ字の長さ）</legend><div class="choices"><label><input type="radio" name="difficulty" value="easy" checked><span>梅<small>初級</small></span></label><label><input type="radio" name="difficulty" value="normal"><span>竹<small>中級</small></span></label><label><input type="radio" name="difficulty" value="hard"><span>松<small>上級</small></span></label></div></fieldset>
+  <label class="field-label" for="genreSelect">ジャンル（何を打ち込む？）</label><select id="genreSelect"><option value="all">ごちゃまぜ（全ジャンル）</option><option value="daily">日常あるある</option><option value="work">お仕事あるある</option><option value="tech">IT・パソコン</option><option value="funny">珍事件・迷言</option></select><p class="hint">お題は毎回ランダム・10問とも重複なし。<br>最初のキーを押した瞬間から計測スタート！<br>英数入力がおすすめ。日本語IME中もキー押下を判定します。</p><p class="error" id="startError" role="alert" hidden></p><button class="btn btn-main" id="startButton" type="button">いざ、打ち込ん打！ <span>ドンッ！</span></button></div>
+  <aside class="sheet score-sheet"><h2><span class="seal">弐</span> 打鍵番付</h2><p class="ranking-intro" id="rankDifficulty">梅 · ごちゃまぜ部門</p><ol id="startLeaderboard" class="leaderboard"></ol><p class="hint">順位は「速さ×正確さ」の得点順。各人の自己ベストだけ表示。記録はこのブラウザ内のみ。</p></aside></div>
+</section>
+<section class="screen" id="gameScreen" aria-labelledby="gameHeading" hidden><div class="game-header"><div><p class="mini-tag">ただいま熱戦中</p><h1 id="gameHeading">その指、<em>止めるな。</em></h1><p id="gameSubtitle">画面のローマ字を打つのだ！</p></div><div class="question-number" id="questionNumber">第 1 / 10 問</div></div>
+  <div class="scoreboard"><div><small>経過時間</small><strong id="timer">00:00.00</strong></div><div><small>全体の進捗</small><strong id="progressValue">0%</strong></div><div class="combo-board"><small>連続正解</small><strong><span id="comboValue">0</span><span class="combo-unit"> COMBO</span></strong></div><div class="katsu-board"><small>ミスタッチ</small><strong><span id="errorValue">0</span> <span class="katsu-small">喝</span></strong></div></div>
+  <div class="sheet game-sheet"><div class="question-top"><span id="gameDifficulty">梅｜ごちゃまぜ</span><span id="counter">0 / 0 文字</span></div><p class="target-text" id="targetText" aria-label="日本語のお題"></p><div class="romaji-label">このローマ字を打つべし！</div><p class="romaji-text" id="romajiText" aria-label="入力するローマ字"></p><div class="progress-track" aria-hidden="true"><div id="progressBar"></div></div><label class="field-label" for="typingInput">さあ、打ち込め！</label><textarea id="typingInput" rows="2" inputmode="latin" placeholder="ローマ字入力でいざ勝負！" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="typingHelp"></textarea><div class="combo-burst" id="comboBurst" aria-hidden="true"></div><p class="combo-shout" id="comboShout">一打ずつ積み重ねよ！</p><div class="katsu-pop" id="katsuPop" role="status" aria-live="off" aria-hidden="true">喝！<small id="katsuPhrase">指が迷子だぞ！</small></div><p id="typingHelp" class="hint">最初のローマ字キーで計測開始。shi/si などの別表記も正解！ 間違えたキーのみ喝＋1。Backspaceは喝なし。英数入力推奨。</p><div class="play-actions"><button class="btn btn-sub" id="restartButton" type="button">最初から再挑戦</button><button class="btn btn-quiet" id="quitButton" type="button">撤退する</button></div></div>
+</section>
+<section class="screen" id="resultScreen" aria-labelledby="resultHeading" hidden><div class="result-hero"><div class="result-stamp" aria-hidden="true">完走！</div><h1 id="resultHeading">打ち込ん打！</h1><p class="hero-copy">君は、たしかに打ち込ん打。</p><p class="result-title" id="resultTitle">称号：打鍵番長</p><p id="resultMessage" class="hint"></p></div>
+  <div class="sheet result-sheet"><div class="result-person"><strong id="resultName"></strong><span id="resultDifficulty"></span></div><small class="score-caption">10問の合計タイム（参考）</small><div id="resultTime" class="big-time">00:00.00</div><div class="score-summary"><div><small>番付得点</small><strong id="resultScore">0点</strong></div><div><small>打鍵速度</small><strong id="resultKpm">0 KPM</strong></div><div><small>最大コンボ</small><strong id="resultCombo">0 COMBO</strong></div></div><div class="result-stats"><div><small>正確率</small><strong id="resultAccuracy">100%</strong></div><div><small>飛んだお叱り</small><strong id="resultErrors">喝！ × 0</strong></div><div><small>番付</small><strong id="resultRank">1位</strong></div></div><p id="katsuComment" class="katsu-comment">喝、なし。実にお見事。</p><div class="master-comment" aria-live="polite"><span class="master-comment-label">📣 師匠のありがた迷惑なひと言</span><p id="funnyComment">最後まで打ち込んだ君に、ひと言。</p></div></div>
+  <div class="action-row"><button class="btn btn-main" id="retryButton" type="button">もう一丁、打ち込ん打！</button><button class="btn btn-sub" id="backButton" type="button">挑戦状に戻る</button></div><div class="sheet result-ranking"><h2>同部門の番付 TOP5</h2><ol id="resultLeaderboard" class="leaderboard"></ol></div>
+</section>
+</main><footer>© 打ち込ん打研究会（架空）／ 筋肉より指先。<span>AI API不使用 · HTML / CSS / JavaScript</span></footer></div>
+
+<!-- 先代の名を名乗った者へのお達し：モーダル表示 -->
+<div id="ancestorModal" class="ancestor-overlay" hidden>
+  <div class="ancestor-sparks" aria-hidden="true">★　ドドン！　★</div>
+  <div class="ancestor-dialog" role="dialog" aria-modal="true" aria-labelledby="ancestorHeading" aria-describedby="ancestorMessage" tabindex="-1">
+    <div class="ancestor-stamp" aria-hidden="true">名<br>前<br>か<br>ぶ<br>り</div>
+    <div class="ancestor-bang" aria-hidden="true">＼ ドォォン!! ／</div>
+    <p class="ancestor-kicker">緊 急 事 態</p>
+    <h2 id="ancestorHeading">先代、降臨。</h2>
+    <p class="ancestor-name"><span id="ancestorTakenName"></span> の名はすでに刻まれておる！</p>
+    <p class="ancestor-message" id="ancestorMessage"></p>
+    <p class="ancestor-question" id="ancestorQuestion"></p>
+    <div class="ancestor-choices"><button id="ancestorYes" type="button" class="btn ancestor-yes">そうじゃ！ わしが先代じゃ</button><button id="ancestorNo" type="button" class="btn ancestor-no">別人でござる…</button></div>
+    <p class="ancestor-note">※ 先代はこのブラウザの番付に住んでおります。</p>
+    <button id="ancestorClose" type="button" class="btn ancestor-button" hidden>真の名を授かり直す！ <span aria-hidden="true">↩</span></button>
+  </div>
+</div>
+</body></html>
